@@ -1,0 +1,6 @@
+framework module Pods_RealWorldSwift {
+  umbrella header "Pods-RealWorldSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}
