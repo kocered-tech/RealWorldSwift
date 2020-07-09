@@ -40,7 +40,10 @@ class MainTabController: UITabBarController {
         let feed = FeedController()
         let nav1 = templateNavigationController(image: UIImage(systemName: "house"), rootViewController: feed)
         
-        viewControllers = [nav1]
+        let profile = ProfileController()
+        let nav2 = templateNavigationController(image: UIImage(systemName: "person"), rootViewController: profile)
+        
+        viewControllers = [nav1, nav2]
     }
     
     //MARK: - Helpers
@@ -48,8 +51,11 @@ class MainTabController: UITabBarController {
     
     func templateNavigationController(image: UIImage?, rootViewController: UIViewController)-> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
-        nav.tabBarItem.image = image
+        nav.tabBarItem.image = image?.withTintColor(.white)
+    
+        
         nav.navigationBar.barTintColor = .black
+        nav.navigationBar.tintColor = .white
         nav.navigationBar.prefersLargeTitles = true
         nav.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]
         nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]

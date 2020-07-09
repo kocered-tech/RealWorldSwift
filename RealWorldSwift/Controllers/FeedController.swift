@@ -19,6 +19,7 @@ class FeedController: UITableViewController {
         view.backgroundColor = Utils.hexStringToUIColor(hex: "303952")
         tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
         tableView.backgroundColor = .clear
+        fetchUser()
         parseJson()
     }
 
@@ -118,5 +119,20 @@ class FeedController: UITableViewController {
             
         }
     }
+    
+    func fetchUser() {
+        let parameters = ["user":
+        [
+            "username": "selamim",
+            "email": "e@k.com",
+            "password": "123123123"
+        ]
+    ]
+        
+        AF.request("https://conduit.productionready.io/api/users", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: nil).responseJSON { (response) in
+            print(response)
+        }
+        }
+    }
 
-}
+
