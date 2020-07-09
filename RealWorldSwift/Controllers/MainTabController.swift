@@ -28,14 +28,17 @@ class MainTabController: UITabBarController {
         
         view.backgroundColor = color1
         
+        tabBar.barTintColor = .black
+        
         
         
     }
     
     
+    
     func configureViewControllers() {
         let feed = FeedController()
-        let nav1 = templateNavigationController(image: UIImage(named: "home"), rootViewController: feed)
+        let nav1 = templateNavigationController(image: UIImage(systemName: "house"), rootViewController: feed)
         
         viewControllers = [nav1]
     }
@@ -46,7 +49,11 @@ class MainTabController: UITabBarController {
     func templateNavigationController(image: UIImage?, rootViewController: UIViewController)-> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
         nav.tabBarItem.image = image
-        nav.navigationBar.barTintColor = .white
+        nav.navigationBar.barTintColor = .black
+        nav.navigationBar.prefersLargeTitles = true
+        nav.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]
+        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]
+        nav.navigationBar.topItem?.title = "Conduit"
         return nav
     }
     

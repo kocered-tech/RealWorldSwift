@@ -19,7 +19,6 @@ class FeedController: UITableViewController {
         view.backgroundColor = Utils.hexStringToUIColor(hex: "303952")
         tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
         tableView.backgroundColor = .clear
-        
         parseJson()
     }
 
@@ -37,14 +36,15 @@ class FeedController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
 //        cell.textLabel!.text = articleArray[indexPath.row].body
 //        print(articleArray[indexPath.row].author)
 //        // Configure the cell...
 //        cell.backgroundColor = .black
 //        cell.textLabel?.textColor = .white
+        cell.post = articleArray[indexPath.row]
         cell.backgroundColor = .clear
-
+        
         return cell
     }
     
