@@ -23,6 +23,11 @@ class PostCell: UITableViewCell{
             }
             authorName.text = post?.author?.username
             descriptionLabel.text = post?.description
+            if let my = post?.favoritesCount! {
+                favoriteLabel.text = String(my)
+            }
+            
+            
         }
         
     }
@@ -58,6 +63,24 @@ class PostCell: UITableViewCell{
         
     }()
     
+    let favoriteImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(systemName: "suit.heart.fill")
+        image.tintColor = .systemRed
+        
+        
+        return image
+    }()
+    
+    let favoriteLabel: UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        
+        return label
+        
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -71,6 +94,8 @@ class PostCell: UITableViewCell{
         addSubview(authorName)
         addSubview(descriptionLabel)
         addSubview(seperator)
+        addSubview(favoriteImage)
+        addSubview(favoriteLabel)
 //        let stack = UIStackView(arrangedSubviews: [userImage,postLabel])
 //        addSubview(stack)
 //        stack.axis = .horizontal
@@ -98,12 +123,25 @@ class PostCell: UITableViewCell{
 //            make.bottom.equalTo(self).offset(20)
         }
         
-        seperator.snp.makeConstraints { (make) in
+        favoriteLabel.snp.makeConstraints { (make) in
+                make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
+            make.right.equalTo(favoriteImage.snp.left).offset(-5)
+                
+            }
+        
+            
+        favoriteImage.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
+            make.right.equalTo(self).offset(-10)
+        }
+        
+        seperator.snp.makeConstraints { (make) in
+            make.top.equalTo(favoriteLabel.snp.bottom).offset(10)
             make.left.right.bottom.equalTo(self).offset(5)
             make.height.equalTo(0.75)
         }
-    
+        
+        
 
     }
 
