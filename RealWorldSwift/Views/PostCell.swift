@@ -22,7 +22,7 @@ class PostCell: UITableViewCell{
                 
             }
             authorName.text = post?.author?.username
-            descriptionLabel.text = post?.body
+            descriptionLabel.text = post?.description
         }
         
     }
