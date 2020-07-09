@@ -15,6 +15,7 @@
 		1847130024B65A0A00323F22 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184712FF24B65A0A00323F22 /* SceneDelegate.swift */; };
 		1847130224B65A0A00323F22 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1847130124B65A0A00323F22 /* MainTabController.swift */; };
 		1847130724B65A1200323F22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1847130624B65A1200323F22 /* Assets.xcassets */; };
+		186AE61524B7BA7D004AEC9C /* AddArticleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186AE61424B7BA7D004AEC9C /* AddArticleController.swift */; };
 		18CC0EDD24B72986000B2232 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CC0EDC24B72986000B2232 /* ProfileController.swift */; };
 		18CC0EDF24B731FA000B2232 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CC0EDE24B731FA000B2232 /* User.swift */; };
 		711F7C2DF76B9436C4CE57E2 /* Pods_RealWorldSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A44BB59799A2B9B049F58E /* Pods_RealWorldSwift.framework */; };
@@ -32,6 +33,7 @@
 		1847130124B65A0A00323F22 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		1847130624B65A1200323F22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1847130B24B65A1200323F22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		186AE61424B7BA7D004AEC9C /* AddArticleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArticleController.swift; sourceTree = "<group>"; };
 		18CC0EDC24B72986000B2232 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		18CC0EDE24B731FA000B2232 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1D46687E6F43807F587DE203 /* Pods-RealWorldSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealWorldSwift.debug.xcconfig"; path = "Target Support Files/Pods-RealWorldSwift/Pods-RealWorldSwift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				1847130124B65A0A00323F22 /* MainTabController.swift */,
 				1827DF8024B66A7C00526FD2 /* FeedController.swift */,
 				18CC0EDC24B72986000B2232 /* ProfileController.swift */,
+				186AE61424B7BA7D004AEC9C /* AddArticleController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -115,12 +118,12 @@
 		184712FC24B65A0A00323F22 /* RealWorldSwift */ = {
 			isa = PBXGroup;
 			children = (
-				183D001724B7097E00024D4F /* Views */,
-				1825AB9124B671BA00C711BE /* Model */,
-				1825AB8E24B66F9600C711BE /* Utils */,
-				1827DF7F24B66A3D00526FD2 /* Controllers */,
 				184712FD24B65A0A00323F22 /* AppDelegate.swift */,
 				184712FF24B65A0A00323F22 /* SceneDelegate.swift */,
+				183D001724B7097E00024D4F /* Views */,
+				1825AB9124B671BA00C711BE /* Model */,
+				1827DF7F24B66A3D00526FD2 /* Controllers */,
+				1825AB8E24B66F9600C711BE /* Utils */,
 				1847130624B65A1200323F22 /* Assets.xcassets */,
 				1847130B24B65A1200323F22 /* Info.plist */,
 			);
@@ -252,6 +255,7 @@
 				1825AB9024B66FAD00C711BE /* Utils.swift in Sources */,
 				1847130224B65A0A00323F22 /* MainTabController.swift in Sources */,
 				1825AB9324B671C800C711BE /* Article.swift in Sources */,
+				186AE61524B7BA7D004AEC9C /* AddArticleController.swift in Sources */,
 				184712FE24B65A0A00323F22 /* AppDelegate.swift in Sources */,
 				18CC0EDF24B731FA000B2232 /* User.swift in Sources */,
 				1847130024B65A0A00323F22 /* SceneDelegate.swift in Sources */,

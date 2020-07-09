@@ -14,6 +14,15 @@ class MainTabController: UITabBarController {
     
     lazy var box =  UIView()
     
+//    let addButton : UIButton  = {
+//        let button = UIButton()
+//        button.imageView?.image = UIImage(systemName: "plus")
+//        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+//        //button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+//
+//        return button
+//    }()
+    
     
     
     
@@ -29,8 +38,19 @@ class MainTabController: UITabBarController {
         view.backgroundColor = color1
         
         tabBar.barTintColor = .black
+//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addButtonTapped))
+        
+        //self.navigationItem.rightBarButtonItem = addButton
         
         
+        
+        
+    }
+    
+    @objc func addButtonTapped() {
+        let vc = AddArticleController()
+        vc.modalPresentationStyle = .popover
+        present(vc, animated: true, completion: nil)
         
     }
     
@@ -44,6 +64,7 @@ class MainTabController: UITabBarController {
         let nav2 = templateNavigationController(image: UIImage(systemName: "person"), rootViewController: profile)
         
         viewControllers = [nav1, nav2]
+        
     }
     
     //MARK: - Helpers
@@ -60,6 +81,10 @@ class MainTabController: UITabBarController {
         nav.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]
         nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]
         nav.navigationBar.topItem?.title = "Conduit"
+        let item = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+//        nav.navigationBar.setItems([item], animated: true)
+        
+        nav.navigationBar.topItem?.rightBarButtonItem = item
         return nav
     }
     

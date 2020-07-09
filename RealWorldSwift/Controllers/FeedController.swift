@@ -9,11 +9,18 @@
 import UIKit
 import Alamofire
 
+protocol FeedControllerDelegate {
+    func didFavorite(index: Int)
+}
+
 class FeedController: UITableViewController {
+    var delegate : FeedControllerDelegate?
+    
     let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTA0OTQ0LCJ1c2VybmFtZSI6InNlbGFtaW0iLCJleHAiOjE1OTk0NzY3ODl9.yjEW0wsKeu7yt7D6opwhAPdSGsM8iZEwaUoBfyEk3oA"
     
     var user : User?
-    
+    //var refreshControl = UIRefreshControl()
+    let myrefresh = UIRefreshControl()
     var articleArray : [Article] = []
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +30,11 @@ class FeedController: UITableViewController {
         tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
+        
+        
+        tableView.addSubview(myrefresh)
+        myrefresh.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+
         //fetchUser()
         logInUser()
         
@@ -52,6 +64,9 @@ class FeedController: UITableViewController {
         
         return cell
     }
+    @objc func refreshData() {
+        parseJson()
+    }
     
     
     func logInUser() {
@@ -63,6 +78,7 @@ class FeedController: UITableViewController {
             //debugPrint(response)
         }
     }
+    
     
     func getCurrentUser() {
         let headers = HTTPHeaders([
@@ -77,8 +93,6 @@ class FeedController: UITableViewController {
                 let decoder = JSONDecoder()
                 
                 self.user = try decoder.decode(Userbody.self, from: json!).user
-                print(self.user?.bio)
-                
                 
 
             }
@@ -106,20 +120,26 @@ class FeedController: UITableViewController {
          
         AF.request("https://conduit.productionready.io/api/user" ,method: .put,parameters: parameters, encoder: JSONParameterEncoder.default, headers: headers).responseJSON { (response) in
             debugPrint(response)
-            print("response is success")
         }
     }
     
     func parseJson() {
-        AF.request("https://conduit.productionready.io/api/articles").response { (response) in
+        let headers = HTTPHeaders([
+           HTTPHeader(name: "Authorization", value: String("Token \(token)"))
+        ])
+        AF.request("https://conduit.productionready.io/api/articles",headers: headers).response { (response) in
             let json = response.data
             do {
                 let decoder = JSONDecoder()
-                
-                let articles = try decoder.decode(Welcome.self, from: json!)
-                
-                self.articleArray = articles.articles
-                self.tableView.reloadData()
+                if let json = json {
+                    let articles = try decoder.decode(Welcome.self, from: json)
+                    
+                    self.articleArray = articles.articles
+                    self.tableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.myrefresh.endRefreshing()
+                    }
+                }
                 
                 
 

@@ -66,7 +66,7 @@ class PostCell: UITableViewCell{
     let favoriteImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "suit.heart.fill")
-        image.tintColor = .systemRed
+        image.tintColor = .lightGray
         
         
         return image
@@ -96,23 +96,20 @@ class PostCell: UITableViewCell{
         addSubview(seperator)
         addSubview(favoriteImage)
         addSubview(favoriteLabel)
-//        let stack = UIStackView(arrangedSubviews: [userImage,postLabel])
-//        addSubview(stack)
-//        stack.axis = .horizontal
+
         
         userImage.snp.makeConstraints { (make) in
             make.width.equalTo(30)
             make.height.equalTo(30)
             make.top.equalTo(self).offset(30)
             make.left.equalTo(self).offset(20)
-//            make.bottom.equalTo(descriptionLabel.snp.top).offset(10)
+
         }
         
         authorName.snp.makeConstraints { (make) in
             make.left.equalTo(userImage.snp.right).offset(10)
             make.top.equalTo(self).offset(30)
             make.right.equalTo(self).offset(20)
-//            make.bottom.equalTo(descriptionLabel.snp.top).offset(10)
             
         }
         
