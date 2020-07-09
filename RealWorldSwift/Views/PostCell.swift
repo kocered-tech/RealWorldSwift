@@ -31,7 +31,7 @@ class PostCell: UITableViewCell{
         let label = UILabel()
         label.textColor = .white
         label.backgroundColor = .clear
-        
+        label.numberOfLines = 0
         return label
     }()
     
