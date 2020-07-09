@@ -11,12 +11,14 @@ import Alamofire
 
 class FeedController: UITableViewController {
 
+    
+    var articleArray : [Article] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         //tableView.backgroundColor = Utils.hexStringToUIColor(hex: "303952")
         view.backgroundColor = Utils.hexStringToUIColor(hex: "303952")
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        
+        tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
+        tableView.backgroundColor = .clear
         
         parseJson()
     }
@@ -30,16 +32,18 @@ class FeedController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 15
+        return articleArray.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        cell.textLabel!.text = "selam"
-        // Configure the cell...
-        cell.backgroundColor = .black
-        cell.textLabel?.textColor = .white
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath)
+//        cell.textLabel!.text = articleArray[indexPath.row].body
+//        print(articleArray[indexPath.row].author)
+//        // Configure the cell...
+//        cell.backgroundColor = .black
+//        cell.textLabel?.textColor = .white
+        cell.backgroundColor = .clear
 
         return cell
     }
@@ -100,9 +104,10 @@ class FeedController: UITableViewController {
                 
                 let articles = try decoder.decode(Welcome.self, from: json!)
                 
-                for article in articles.articles {
-                    print(article.body)
-                }
+                self.articleArray = articles.articles
+                self.tableView.reloadData()
+                
+                
 
             }
             
