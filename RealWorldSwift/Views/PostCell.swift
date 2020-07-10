@@ -10,7 +10,14 @@ import UIKit
 import SnapKit
 import SDWebImage
 
+protocol PostCellDelegate: class {
+    func handleFavoriteTapped(_ cell: PostCell)
+}
+
 class PostCell: UITableViewCell{
+    
+    var isFavorite : Bool?
+    weak var delegate : PostCellDelegate?
     
     var post : Article? {
         didSet {
@@ -49,14 +56,15 @@ class PostCell: UITableViewCell{
     
     let userImage : UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 35/2
+        image.layer.masksToBounds = true
         
        return image
     }()
     
     let seperator: UIView = {
        let view = UIView()
-        view.backgroundColor = .darkGray
         
         return view
         
@@ -66,7 +74,7 @@ class PostCell: UITableViewCell{
     let favoriteImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "suit.heart.fill")
-        image.tintColor = .lightGray
+    
         
         
         return image
@@ -96,11 +104,21 @@ class PostCell: UITableViewCell{
         addSubview(seperator)
         addSubview(favoriteImage)
         addSubview(favoriteLabel)
+        
+        if isFavorite == false  {
+            favoriteImage.tintColor = .lightGray
+        } else {
+            favoriteImage.tintColor = .systemRed
+        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(favoriteTapped))
+        favoriteImage.isUserInteractionEnabled = true
+        favoriteImage.addGestureRecognizer(tap)
 
         
         userImage.snp.makeConstraints { (make) in
-            make.width.equalTo(30)
-            make.height.equalTo(30)
+            make.width.equalTo(35)
+            make.height.equalTo(35)
             make.top.equalTo(self).offset(30)
             make.left.equalTo(self).offset(20)
 
@@ -140,6 +158,23 @@ class PostCell: UITableViewCell{
         
         
 
+    }
+    
+    //MARK: - Helpers
+    
+    @objc func favoriteTapped() {
+        //
+        print("Tap tap")
+        if isFavorite! {
+            favoriteImage.tintColor = .lightGray
+        } else {
+            favoriteImage.tintColor = .systemRed
+        }
+        
+        delegate?.handleFavoriteTapped(self)
+        
+        
+        isFavorite!.toggle()
     }
 
 }

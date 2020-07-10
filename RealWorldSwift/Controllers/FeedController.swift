@@ -9,12 +9,9 @@
 import UIKit
 import Alamofire
 
-protocol FeedControllerDelegate {
-    func didFavorite(index: Int)
-}
+
 
 class FeedController: UITableViewController {
-    var delegate : FeedControllerDelegate?
     
     let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTA0OTQ0LCJ1c2VybmFtZSI6InNlbGFtaW0iLCJleHAiOjE1OTk0NzY3ODl9.yjEW0wsKeu7yt7D6opwhAPdSGsM8iZEwaUoBfyEk3oA"
     
@@ -30,6 +27,7 @@ class FeedController: UITableViewController {
         tableView.register(PostCell.self, forCellReuseIdentifier: "PostCell")
         tableView.backgroundColor = .clear
         tableView.allowsSelection = false
+        
         
         
         tableView.addSubview(myrefresh)
@@ -61,6 +59,8 @@ class FeedController: UITableViewController {
         
         cell.post = articleArray[indexPath.row]
         cell.backgroundColor = .clear
+        cell.isFavorite = articleArray[indexPath.row].favorited!
+        cell.delegate = self 
         
         return cell
     }
@@ -168,4 +168,20 @@ class FeedController: UITableViewController {
         }
     }
 
+
+extension FeedController: PostCellDelegate {
+    func handleFavoriteTapped(_ cell: PostCell) {
+        let slug = cell.post?.slug
+        
+        
+        let headers = HTTPHeaders([
+           HTTPHeader(name: "Authorization", value: String("Token \(token)"))
+        ])
+        AF.request("https://conduit.productionready.io/api/articles/\(String(slug!))/favorite",method: .post, headers: headers).response { (response) in
+            debugPrint(response)
+        }
+    }
+    
+    
+}
 
