@@ -8,8 +8,10 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class AddArticleController: UIViewController, UITextViewDelegate {
+    let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTA0OTQ0LCJ1c2VybmFtZSI6InNlbGFtaW0iLCJleHAiOjE1OTk0NzY3ODl9.yjEW0wsKeu7yt7D6opwhAPdSGsM8iZEwaUoBfyEk3oA"
     
     let headerLabel: UILabel = {
         let label = UILabel()
@@ -29,14 +31,14 @@ class AddArticleController: UIViewController, UITextViewDelegate {
         //button.frame = CGRect(x: 0, y: 0, width: 150, height: 30)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
-        
+        button.addTarget(self, action: #selector(createArticle), for: .touchUpInside)
         return button
     }()
     
     
     let titleTextField: UITextView = {
         let textField = UITextView()
-        textField.text = "title"
+        textField.text = ""
         textField.textColor = .lightGray
         textField.backgroundColor = UIColor(white: 0.5, alpha: 0.1)
         textField.layer.cornerRadius = 5
@@ -48,6 +50,19 @@ class AddArticleController: UIViewController, UITextViewDelegate {
 
         
         
+        return textField
+    }()
+    
+    let descriptionTextField: UITextView = {
+        let textField = UITextView()
+        textField.textColor = .lightGray
+        textField.backgroundColor = UIColor(white: 0.5, alpha: 0.1)
+        textField.layer.cornerRadius = 5
+        textField.layer.masksToBounds = true
+        textField.isScrollEnabled = false
+        textField.font = .monospacedSystemFont(ofSize: 16, weight: .light)
+        textField.textColor = .white
+        textField.autocorrectionType = .no
         return textField
     }()
     
@@ -64,6 +79,22 @@ class AddArticleController: UIViewController, UITextViewDelegate {
         return textField
     }()
     
+    let tagsTextField: UITextView = {
+        let textField = UITextView()
+        textField.textColor = .lightGray
+        textField.backgroundColor = UIColor(white: 0.5, alpha: 0.1)
+        textField.layer.cornerRadius = 5
+        textField.layer.masksToBounds = true
+        textField.isScrollEnabled = false
+        textField.font = .monospacedSystemFont(ofSize: 16, weight: .light)
+        textField.textColor = .white
+        textField.autocorrectionType = .no
+        return textField
+    }()
+    
+    
+    
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         titleTextField.text = ""
     }
@@ -77,12 +108,42 @@ class AddArticleController: UIViewController, UITextViewDelegate {
         configureUI()
     }
     
+    //MARK: - Fetch Functions
+    
+    @objc func createArticle() {
+
+        
+        let parameters = ["article": [
+            "title": titleTextField.text ?? "",
+            "description": descriptionTextField.text ?? "",
+            "body": bodyTextField.text ?? "",
+            "tagList": ["reactjs"]
+            ]
+        ]
+        let headers = HTTPHeaders([
+           HTTPHeader(name: "Authorization", value: String("Token \(token)"))
+        ])
+        
+        AF.request("https://conduit.productionready.io/api/articles", method: .post, parameters: parameters, headers: headers).response { (response) in
+            debugPrint(response)
+            self.dismiss(animated: true, completion: nil)
+            
+            
+        }
+    }
+    
+    
+    //MARK: - UI
+    
+    
     
     func configureUI() {
         view.addSubview(headerLabel)
         view.addSubview(addButton)
         view.addSubview(titleTextField)
+        view.addSubview(descriptionTextField)
         view.addSubview(bodyTextField)
+        view.addSubview(tagsTextField)
         
         headerLabel.snp.makeConstraints { (make) in
             make.left.top.equalTo(view).offset(20)
@@ -101,14 +162,29 @@ class AddArticleController: UIViewController, UITextViewDelegate {
             make.right.equalTo(view).inset(20)
         }
         
-        bodyTextField.snp.makeConstraints { (make) in
+        descriptionTextField.snp.makeConstraints { (make) in
             make.top.equalTo(titleTextField.snp.bottom).offset(40)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).inset(20)
         }
         
+        bodyTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(descriptionTextField.snp.bottom).offset(40)
+            make.left.equalTo(view).offset(20)
+            make.right.equalTo(view).inset(20)
+            make.height.greaterThanOrEqualTo(200)
+        }
+        
+        tagsTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(bodyTextField.snp.bottom).offset(40)
+            make.left.equalTo(view).offset(20)
+            make.right.equalTo(view).inset(20)
+        }
         
         
     }
+    
+    
+
 
 }

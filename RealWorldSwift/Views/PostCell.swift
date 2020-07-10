@@ -17,7 +17,7 @@ class PostCell: UITableViewCell{
             let url = URL(string: (post?.author?.image)!)
             userImage.sd_setImage(with: url) { (image, error, cache, url) in
                 if let error = error {
-                    print("Error setting image")
+                    print("Error setting image \(error)")
                 }
                 
             }
