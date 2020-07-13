@@ -12,6 +12,7 @@ import SDWebImage
 
 protocol PostCellDelegate: class {
     func handleFavoriteTapped(_ cell: PostCell)
+    func handleArticleTapped(_ cell: PostCell)
 }
 
 class PostCell: UITableViewCell{
@@ -111,9 +112,13 @@ class PostCell: UITableViewCell{
             favoriteImage.tintColor = .systemRed
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(favoriteTapped))
+        let favoriteTap = UITapGestureRecognizer(target: self, action: #selector(favoriteTapped))
         favoriteImage.isUserInteractionEnabled = true
-        favoriteImage.addGestureRecognizer(tap)
+        favoriteImage.addGestureRecognizer(favoriteTap)
+        
+        let articleTap = UITapGestureRecognizer(target: self, action: #selector(articleTapped))
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(articleTap)
 
         
         userImage.snp.makeConstraints { (make) in
@@ -163,8 +168,7 @@ class PostCell: UITableViewCell{
     //MARK: - Helpers
     
     @objc func favoriteTapped() {
-        //
-        print("Tap tap")
+        
         if isFavorite! {
             favoriteImage.tintColor = .lightGray
         } else {
@@ -175,6 +179,12 @@ class PostCell: UITableViewCell{
         
         
         isFavorite!.toggle()
+    }
+    
+    @objc func articleTapped() {
+        delegate?.handleArticleTapped(self)
+        
+        
     }
 
 }

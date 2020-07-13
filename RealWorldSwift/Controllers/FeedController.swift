@@ -170,6 +170,14 @@ class FeedController: UITableViewController {
 
 
 extension FeedController: PostCellDelegate {
+    func handleArticleTapped(_ cell: PostCell) {
+        let article = cell.post
+        let vc = ArticleDetailController()
+        present(vc, animated: true, completion: nil)
+        
+        
+    }
+    
     func handleFavoriteTapped(_ cell: PostCell) {
         let slug = cell.post?.slug
         
