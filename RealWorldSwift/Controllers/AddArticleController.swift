@@ -9,9 +9,11 @@
 import UIKit
 import SnapKit
 import Alamofire
+import Spinners
 
 class AddArticleController: UIViewController, UITextViewDelegate {
     let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTA0OTQ0LCJ1c2VybmFtZSI6InNlbGFtaW0iLCJleHAiOjE1OTk0NzY3ODl9.yjEW0wsKeu7yt7D6opwhAPdSGsM8iZEwaUoBfyEk3oA"
+    var spinners: Spinners!
     
     let headerLabel: UILabel = {
         let label = UILabel()
@@ -38,7 +40,8 @@ class AddArticleController: UIViewController, UITextViewDelegate {
     
     let titleTextField: UITextView = {
         let textField = UITextView()
-        textField.text = ""
+        textField.text = "title"
+        textField.tag = 0
         textField.textColor = .lightGray
         textField.backgroundColor = UIColor(white: 0.5, alpha: 0.1)
         textField.layer.cornerRadius = 5
@@ -47,6 +50,7 @@ class AddArticleController: UIViewController, UITextViewDelegate {
         textField.font = .monospacedSystemFont(ofSize: 16, weight: .light)
         textField.textColor = .white
         textField.autocorrectionType = .no
+    
 
         
         
@@ -55,7 +59,9 @@ class AddArticleController: UIViewController, UITextViewDelegate {
     
     let descriptionTextField: UITextView = {
         let textField = UITextView()
+        textField.tag = 1
         textField.textColor = .lightGray
+        textField.text = "description"
         textField.backgroundColor = UIColor(white: 0.5, alpha: 0.1)
         textField.layer.cornerRadius = 5
         textField.layer.masksToBounds = true
@@ -68,6 +74,8 @@ class AddArticleController: UIViewController, UITextViewDelegate {
     
     let bodyTextField: UITextView = {
         let textField = UITextView()
+        textField.tag = 2
+        textField.text = "body"
         textField.textColor = .lightGray
         textField.backgroundColor = UIColor(white: 0.5, alpha: 0.1)
         textField.layer.cornerRadius = 5
@@ -81,6 +89,8 @@ class AddArticleController: UIViewController, UITextViewDelegate {
     
     let tagsTextField: UITextView = {
         let textField = UITextView()
+        textField.text = "tags (seperate by spaces)"
+        textField.tag = 3
         textField.textColor = .lightGray
         textField.backgroundColor = UIColor(white: 0.5, alpha: 0.1)
         textField.layer.cornerRadius = 5
@@ -96,8 +106,45 @@ class AddArticleController: UIViewController, UITextViewDelegate {
     
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        titleTextField.text = ""
+        
+        textView.text = ""
+        
+        
+        
+        
     }
+    func textViewDidChange(_ textView: UITextView) {
+        
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.tag == 0 {
+            if textView.text == "" {
+                textView.text = "title"
+            }
+        }
+        
+        if textView.tag == 1 {
+            if textView.text == "" {
+                textView.text = "description"
+            }
+        }
+        
+        if textView.tag == 2 {
+            if textView.text == "" {
+                textView.text = "body"
+            }
+        }
+        
+        if textView.tag == 3 {
+            if textView.text == "" {
+                textView.text = "tags (seperate by spaces)"
+            }
+        }
+    }
+    
+    
+
     
     
     override func viewDidLoad() {
@@ -105,14 +152,18 @@ class AddArticleController: UIViewController, UITextViewDelegate {
         
         view.backgroundColor = Utils.hexStringToUIColor(hex: "303952")
         self.titleTextField.delegate = self
+        self.descriptionTextField.delegate = self
+        self.bodyTextField.delegate = self
+        self.tagsTextField.delegate = self
         configureUI()
+        spinners = Spinners(type: .wheel, with: self)
     }
     
     //MARK: - Fetch Functions
     
     @objc func createArticle() {
 
-        
+        spinners.present()
         let parameters = ["article": [
             "title": titleTextField.text ?? "",
             "description": descriptionTextField.text ?? "",
@@ -130,6 +181,7 @@ class AddArticleController: UIViewController, UITextViewDelegate {
             
             
         }
+        spinners.dismiss()
     }
     
     

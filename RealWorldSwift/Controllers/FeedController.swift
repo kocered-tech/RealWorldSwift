@@ -8,11 +8,11 @@
 
 import UIKit
 import Alamofire
-
+import Spinners
 
 
 class FeedController: UITableViewController {
-    
+    var spinners : Spinners!
     let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTA0OTQ0LCJ1c2VybmFtZSI6InNlbGFtaW0iLCJleHAiOjE1OTk0NzY3ODl9.yjEW0wsKeu7yt7D6opwhAPdSGsM8iZEwaUoBfyEk3oA"
     
     var user : User?
@@ -21,6 +21,7 @@ class FeedController: UITableViewController {
     var articleArray : [Article] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        spinners = Spinners(type: .wheel, with: self)
         tableView.dataSource = self
         //tableView.backgroundColor = Utils.hexStringToUIColor(hex: "303952")
         view.backgroundColor = Utils.hexStringToUIColor(hex: "303952")
@@ -124,6 +125,7 @@ class FeedController: UITableViewController {
     }
     
     func parseJson() {
+        spinners.present()
         let headers = HTTPHeaders([
            HTTPHeader(name: "Authorization", value: String("Token \(token)"))
         ])
@@ -136,6 +138,7 @@ class FeedController: UITableViewController {
                     
                     self.articleArray = articles.articles
                     self.tableView.reloadData()
+                    self.spinners.dismiss()
                     DispatchQueue.main.async {
                         self.myrefresh.endRefreshing()
                     }

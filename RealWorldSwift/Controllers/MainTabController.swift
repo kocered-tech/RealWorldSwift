@@ -54,6 +54,10 @@ class MainTabController: UITabBarController {
         
     }
     
+    @objc func filterButtonTapped() {
+        //
+    }
+    
     
     
     func configureViewControllers() {
@@ -81,10 +85,15 @@ class MainTabController: UITabBarController {
         nav.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]
         nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,]
         nav.navigationBar.topItem?.title = "Conduit"
-        let item = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        
+        let filter = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(filterButtonTapped))
 //        nav.navigationBar.setItems([item], animated: true)
         
-        nav.navigationBar.topItem?.rightBarButtonItem = item
+//        nav.navigationBar.topItem?.rightBarButtonItem = item
+        
+        
+        nav.navigationBar.topItem?.rightBarButtonItems = [add, filter]
         return nav
     }
     
