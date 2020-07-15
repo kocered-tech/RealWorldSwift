@@ -168,7 +168,7 @@ class AddArticleController: UIViewController, UITextViewDelegate {
             "title": titleTextField.text ?? "",
             "description": descriptionTextField.text ?? "",
             "body": bodyTextField.text ?? "",
-            "tagList": ["reactjs"]
+            "tagList": tagsTextField.text.components(separatedBy: " ")
             ]
         ]
         let headers = HTTPHeaders([

@@ -10,5 +10,6 @@ target 'RealWorldSwift' do
   pod 'SnapKit', '~> 5.0.0'
   pod 'SDWebImage', '~> 5.0'
   pod 'Spinners'
+  pod 'ChameleonFramework/Swift', :git => 'https://github.com/wowansm/Chameleon.git', :branch => 'swift5'
 
 end

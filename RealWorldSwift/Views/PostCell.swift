@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import SDWebImage
+import ChameleonFramework
 
 protocol PostCellDelegate: class {
     func handleFavoriteTapped(_ cell: PostCell)
@@ -16,9 +17,10 @@ protocol PostCellDelegate: class {
 }
 
 class PostCell: UITableViewCell{
-    
+    var localTagsList : [String]?
     var isFavorite : Bool?
     weak var delegate : PostCellDelegate?
+    var labelList : [UILabel]?
     
     var post : Article? {
         didSet {
@@ -34,11 +36,19 @@ class PostCell: UITableViewCell{
             if let my = post?.favoritesCount! {
                 favoriteLabel.text = String(my)
             }
+            localTagsList = post?.tagList
             
             
         }
         
     }
+    let tagStack : UIStackView = {
+        let stack = UIStackView()
+        stack.spacing = 10
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        return stack
+    }()
     
     let descriptionLabel : UILabel = {
         let label = UILabel()
@@ -66,7 +76,7 @@ class PostCell: UITableViewCell{
     
     let seperator: UIView = {
        let view = UIView()
-        
+        view.backgroundColor = UIColor(white: 1, alpha: 0.1)
         return view
         
         
@@ -99,12 +109,55 @@ class PostCell: UITableViewCell{
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        
+        
+        if labelList?.count == nil {
+        for tag in post!.tagList! {
+            
+            let label = UILabel()
+            labelList = []
+            label.textAlignment = .center
+            label.text = tag
+            label.layer.cornerRadius = 10
+            label.layer.masksToBounds = true
+            
+            
+            label.backgroundColor = RandomFlatColorWithShade(.dark)
+            label.textColor = ContrastColorOf(
+            label.backgroundColor!, returnFlat: true)
+            label.adjustsFontSizeToFitWidth = true
+            labelList!.append(label)
+
+        }
+
+        }
+        if tagStack.arrangedSubviews.first == nil && labelList?.count != nil  {
+        for label in labelList! {
+            tagStack.addArrangedSubview(label)
+            
+        }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         addSubview(userImage)
         addSubview(authorName)
         addSubview(descriptionLabel)
         addSubview(seperator)
         addSubview(favoriteImage)
         addSubview(favoriteLabel)
+        addSubview(tagStack)
+    
         
         if isFavorite == false  {
             favoriteImage.tintColor = .lightGray
@@ -156,10 +209,25 @@ class PostCell: UITableViewCell{
         }
         
         seperator.snp.makeConstraints { (make) in
-            make.top.equalTo(favoriteLabel.snp.bottom).offset(10)
-            make.left.right.bottom.equalTo(self).offset(5)
-            make.height.equalTo(0.75)
+            if (tagStack.arrangedSubviews.first != nil) {
+                make.top.equalTo(tagStack.snp.bottom).offset(7)
+            } else {
+                make.top.equalTo(favoriteLabel.snp.bottom).offset(7)
+            }
+            
+            make.bottom.equalTo(self).inset(2)
+            make.right.equalTo(self).inset(5)
+            make.left.equalTo(self).offset(5)
+            make.height.equalTo(0.50)
         }
+        
+        tagStack.snp.makeConstraints { (make) in
+            make.bottom.equalTo(favoriteLabel.snp.bottom)
+            make.left.equalTo(self).offset(15)
+            make.right.equalTo(self).offset(-100)
+        }
+        
+        
         
         
 
